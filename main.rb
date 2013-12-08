@@ -10,7 +10,7 @@ require 'json'
 require 'tk'
 
 PLAYLIST_ID_PATTERN = /youtube.com\/playlist\?list=([\w-]+)/
-OUTFILE_NAME = 'out.csv'
+OUTFILE_EXT = '.csv'
 
 # [Tk/Tcl stuff]
 temp_dir = File.dirname($0)
@@ -38,8 +38,6 @@ def get_playlist_data(playlist_id, start_index, end_index)
   # Loading meter
   progress = current_index.to_f / end_index
   @bar_progress.percent = progress * 100
-
-  #print "#{load_percent}% (#{start_index}/#{end_index})\r"
   
   # Get playlist API response
   open("http://gdata.youtube.com/feeds/api/playlists/#{playlist_id}?v=2&alt=jsonc&start-index=#{start_index}") do |data|
@@ -50,6 +48,11 @@ def get_playlist_data(playlist_id, start_index, end_index)
     response_object = JSON.parse(json_response)
     response_items = response_object['data']['items']
     total_items = response_object['data']['totalItems']
+    
+    # Initial value since we didn't know the total before
+    if end_index == 1
+      end_index = total_items
+    end
   
     response_items.each do |item|
       prev_index = current_index
@@ -73,7 +76,7 @@ def get_playlist_data(playlist_id, start_index, end_index)
       end
       
       if current_index == end_index || current_index == total_items 
-        grabber_done()
+        grabber_done(playlist_id)
         return
       end
     end
@@ -85,11 +88,13 @@ def get_playlist_data(playlist_id, start_index, end_index)
 end
 
 # Callback method when grabbing finishes
-def grabber_done()
+def grabber_done(playlist_id)
   @outfile.close
   @bar_progress.percent = 100
   @button_start.state = 'normal'
-  show_msg("Done. Wrote to #{OUTFILE_NAME}")
+  
+  filename = "#{playlist_id}#{OUTFILE_EXT}"
+  show_msg("Finished OK. Output to #{filename}")
 end
 
 # Shows a standard info box with ok button
@@ -133,8 +138,9 @@ button_start_pressed = Proc.new {
   # Disable start button
   @button_start.state = 'disabled'
   
-  @outfile = File.open(OUTFILE_NAME, 'w')
-  Thread.new{get_playlist_data(playlist_id, 1, 100)}
+  filename = "#{playlist_id}#{OUTFILE_EXT}"
+  @outfile = File.open(filename, 'w')
+  Thread.new{get_playlist_data(playlist_id, 1, 1)}
 }
 
 # Bind start button event
