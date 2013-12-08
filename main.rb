@@ -37,7 +37,10 @@ def get_playlist_data(playlist_id, start_index, end_index)
 
   # Loading meter
   progress = current_index.to_f / end_index
-  @bar_progress.percent = progress * 100
+  
+  if end_index > 1
+    @bar_progress.percent = progress * 100
+  end
   
   # Get playlist API response
   open("http://gdata.youtube.com/feeds/api/playlists/#{playlist_id}?v=2&alt=jsonc&start-index=#{start_index}") do |data|
@@ -94,7 +97,7 @@ def grabber_done(playlist_id)
   @button_start.state = 'normal'
   
   filename = "#{playlist_id}#{OUTFILE_EXT}"
-  show_msg("Finished OK. Output to #{filename}")
+  show_msg('Done', "Finished OK. Output to #{filename}")
 end
 
 # Shows a standard info box with ok button
