@@ -9,7 +9,7 @@ require 'open-uri'
 require 'json'
 require 'tk'
 
-PLAYLIST_ID_PATTERN = /youtube.com\/playlist\?list=([\w-]+)/
+PLAYLIST_ID_PATTERN = /youtube.com\/.*list=([\w-]+)/
 OUTFILE_EXT = '.csv'
 
 # [Tk/Tcl stuff]
@@ -98,11 +98,11 @@ def grabber_done(playlist_id)
 end
 
 # Shows a standard info box with ok button
-def show_msg(msg)
+def show_msg(title, msg)
   msg_box = Tk.messageBox ({
     :type    => 'ok',  
     :icon    => 'info', 
-    :title   => 'Alert',
+    :title   => title,
     :message => msg
   })
 end
@@ -110,6 +110,7 @@ end
 # [Ruby tk widget bindings]
 @entry_playlist_url = wpath(top_window, ".top45.ent53")
 @button_start = wpath(top_window, ".top45.but54")
+@button_help = wpath(top_window, ".top45.but46")
 @bar_progress = wpath(top_window, ".top45.pro55")
 
 @entry_playlist_url_text = TkVariable.new
@@ -122,13 +123,13 @@ button_start_pressed = Proc.new {
   # Get playlist id
   url = @entry_playlist_url_text.value
   if url.length == 0
-    show_msg('You didn\'t enter anything!!')
+    show_msg('Error', 'You didn\'t enter anything!!')
     return
   end
   
   playlist_id = url[PLAYLIST_ID_PATTERN, 1];
   unless playlist_id
-    show_msg('Unable to determine playlist id from url')
+    show_msg('Error', 'Unable to determine playlist id from url')
     return
   end
   
@@ -145,6 +146,15 @@ button_start_pressed = Proc.new {
 
 # Bind start button event
 @button_start.command = button_start_pressed
+
+# Click event for the 'Help' button
+button_help_pressed = Proc.new {
+  show_msg('Help',"Paste (Ctrl+V) the YouTube playlist url into the box and press start.\n\nA standard .csv file with the playlist's id as the name will be written. The file will contain video titles and direct links suitable for download managers such as JDownloader. Note: Only accepts a full YouTube url and not just a playlist id\n\nWritten by Gunbard (gunbard@gmail.com)")
+}
+
+# Bind help button event
+@button_help.command = button_help_pressed
+
 
 # Event handler for window close
 root.winfo_children[0].protocol(:WM_DELETE_WINDOW) { 

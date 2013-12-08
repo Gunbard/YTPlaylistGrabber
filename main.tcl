@@ -1008,7 +1008,7 @@ proc vTclWindow. {base} {
     # CREATING WIDGETS
     ###################
     wm focusmodel $top passive
-    wm geometry $top 200x200+144+144; update
+    wm geometry $top 200x200+24+24; update
     wm maxsize $top 5762 1061
     wm minsize $top 112 1
     wm overrideredirect $top 0
@@ -1063,6 +1063,9 @@ proc vTclWindow.top45 {base} {
     ::progressbar::progressbar $top.pro55 \
         -background {#f0f0f0f0f0f0} -shape flat -variable "$top\::pro55" 
     vTcl:DefineAlias "$top.pro55" "Progressbar1" vTcl:WidgetProc "Toplevel1" 1
+    button $top.but46 \
+        -pady 0 -text ? 
+    vTcl:DefineAlias "$top.but46" "Button2" vTcl:WidgetProc "Toplevel1" 1
     ###################
     # SETTING GEOMETRY
     ###################
@@ -1072,10 +1075,13 @@ proc vTclWindow.top45 {base} {
         -in $top -x 110 -y 5 -width 184 -height 22 -anchor nw \
         -bordermode ignore 
     place $top.but54 \
-        -in $top -x 40 -y 35 -width 224 -height 35 -anchor nw \
+        -in $top -x 10 -y 35 -width 284 -height 35 -anchor nw \
         -bordermode ignore 
     place $top.pro55 \
         -in $top -x 65 -y 75 -width 175 -height 24 -anchor nw \
+        -bordermode ignore 
+    place $top.but46 \
+        -in $top -x 275 -y 80 -width 20 -height 20 -anchor nw \
         -bordermode ignore 
 
     vTcl:FireEvent $base <<Ready>>
