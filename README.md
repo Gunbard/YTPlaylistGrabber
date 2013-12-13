@@ -4,7 +4,7 @@ YTPlaylistGrabber
 Gets YouTube playlist data and generates a .csv of titles and urls
 - Simple, basic UI
 - Just paste a YouTube playlist url
-- Hit start, recieve csv
+- Hit start, receive csv
 
 Version
 -------
@@ -27,13 +27,13 @@ Built with Platypus.
 ```
 
 ####Linux
-Needs Ruby and Tk/Tcl installation, but shouldn't need any other dependencies
+Needs Ruby and Tk/Tcl, but shouldn't need any other dependencies.
 ```
 sudo apt-get install libtcltk-ruby
 ./main.rb
 ```
 ####Notes
-You can always just run main.rb like a normal script, however you will probably need to install ActiveState Tk/Tcl.
+You can always just run main.rb like a normal script on Windows and OS X, however you will probably need to install ActiveState Tk/Tcl.
 
 
 License
