@@ -14,6 +14,7 @@ Installation
 --------------
 
 ####Windows
+![alt text](https://raw.github.com/Gunbard/YTPlaylistGrabber/master/readme-img/win8.png "Windows 8 screenshot")
 ```
 Executable is standalone. Just run normally.
 Built with OCRA.
