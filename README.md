@@ -20,21 +20,23 @@ Executable is standalone. Just run normally.
 Built with OCRA.
 ```
 
-####OS X (.app coming soon)
+Still looking into standalone Ruby-Tk deployment on the other two OSes
+
+####OS X
+Download and install ActiveState Tk/Tcl 8.5
 ```
-Executable is standalone. Just run normally.
-Built with Platypus.
+http://www.activestate.com/activetcl/downloads/thank-you?dl=http://downloads.activestate.com/ActiveTcl/releases/8.5.15.0/ActiveTcl8.5.15.1.297588-macosx10.5-i386-x86_64-threaded.dmg
+```
+Run with
+```
+ruby main.rb
 ```
 
 ####Linux
-Needs Ruby and Tk/Tcl, but shouldn't need any other dependencies.
 ```
 sudo apt-get install libtcltk-ruby
-./main.rb
+ruby main.rb
 ```
-####Notes
-You can always just run main.rb like a normal script on Windows and OS X, however you will probably need to install ActiveState Tk/Tcl.
-
 
 License
 ----
